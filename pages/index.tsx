@@ -6,10 +6,10 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable import/no-default-export */
 
-import { Box, Flex } from '@chakra-ui/core';
+import { Flex } from '@chakra-ui/core';
 import { GetStaticProps } from 'next';
 
-import Search from '../components/search';
+import Search from '../components/Search';
 import { getMakes, Make } from '../lib/getMakes';
 
 type HomeProps = {

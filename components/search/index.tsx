@@ -15,12 +15,11 @@ import {
   Box,
   Select,
 } from '@chakra-ui/core';
-import axios from 'axios';
-import { Field, Form, Formik, useField } from 'formik';
+import { Field, Form, Formik, useField, useFormikContext } from 'formik';
 import router, { useRouter } from 'next/router';
 import useSWR from 'swr';
 
-import { getMakes, Make } from '../../lib/getMakes';
+import { Make } from '../../lib/getMakes';
 import { Model } from '../../lib/getModels';
 import { getReqAsString } from '../../utils/getReqAsString';
 
@@ -41,20 +40,22 @@ export default function Search({ makes, singleColumn }: SearchProps) {
     model: query.model || 'all',
   };
 
+  const handleSubmit = (values: typeof initialValues) => {
+    router.push(
+      {
+        pathname: '/cars',
+        query: { ...values, page: 1 },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   return (
     <Formik
       enableReinitialize
       initialValues={initialValues}
-      onSubmit={(values) => {
-        router.push(
-          {
-            pathname: '/car',
-            query: { ...values, page: 1 },
-          },
-          undefined,
-          { shallow: true }
-        );
-      }}
+      onSubmit={handleSubmit}
     >
       {({ values }) => (
         <Form>
@@ -113,23 +114,24 @@ export default function Search({ makes, singleColumn }: SearchProps) {
 
 export interface ModelSelectProps extends SelectProps {
   name: string;
-  make: string;
+  make?: string;
 }
 
 export function ModelSelect({ make, ...props }: ModelSelectProps) {
+  const { setFieldValue } = useFormikContext();
   const [field] = useField({
     name: props.name,
   });
 
-  const fetcher = (url: string) => axios(url).then((r) => r.data);
-
-  const { data: models } = useSWR<Model[]>(
-    `/api/models?make=${make}`,
-    fetcher,
-    {
-      dedupingInterval: 100_000,
-    }
-  );
+  const { data: models } = useSWR<Model[]>(`/api/models?make=${make}`, {
+    dedupingInterval: 600_000,
+    onSuccess: (newValues) => {
+      if (!newValues.map((a) => a.model).includes(field.value)) {
+        // we want to make this field.value = 'all'
+        setFieldValue('model', 'all');
+      }
+    },
+  });
 
   return (
     <FormControl>

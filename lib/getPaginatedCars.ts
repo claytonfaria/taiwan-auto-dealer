@@ -17,7 +17,7 @@ export async function getPaginatedCars(query?: ParsedUrlQuery) {
     make: getValueStr(query?.make),
     model: getValueStr(query?.model),
     minPrice: getValueNumber(query?.minPrice),
-    maxPrice: getValueNumber(query?.minPrice),
+    maxPrice: getValueNumber(query?.maxPrice),
   };
 
   const cars: Car[] = await prisma.car.findMany({
@@ -44,7 +44,7 @@ export async function getPaginatedCars(query?: ParsedUrlQuery) {
     },
   });
 
-  return { cars, totalPages: Math.ceil(totalRows / rowsPerPage) };
+  return { totalPages: Math.ceil(totalRows / rowsPerPage), cars };
 }
 
 function getValueNumber(value?: string | string[]): number | undefined {
