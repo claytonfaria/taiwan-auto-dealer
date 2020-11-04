@@ -11,23 +11,24 @@
     "@chakra-ui/core": "^1.0.0-rc.8",
     "@prisma/cli": "^2.10.1",
     "@prisma/client": "^2.10.1",
+    "axios": "^0.21.0",
+    "formik": "^2.2.1",
     "framer-motion": "^2.9.4",
     "next": "10.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "swr": "^0.3.8",
     "ts-node": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.6",
     "@types/react": "^16.9.55",
+    "@types/react-paginate": "^6.2.1",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.6.0",
     "eslint": "^7.12.1",
-    "eslint-config-airbnb-typescript": "^12.0.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-react": "^7.20.3",
-    "eslint-plugin-react-hooks": "^4.0.8",
+    "eslint-config-galex": "^2.6.2",
+    "prettier": "^2.1.2",
     "typescript": "^4.0.5"
   }
 }

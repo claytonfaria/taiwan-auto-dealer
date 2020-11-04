@@ -1,47 +1,33 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-import { PrismaClient } from '@prisma/client';
-import { GetStaticProps } from 'next';
-import { Faq } from '../types/faq';
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable unicorn/consistent-function-scoping */
+/* eslint-disable promise/prefer-await-to-then */
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable import/no-default-export */
 
-type FaqProps = {
-  faq: Faq[];
+import { Box, Flex } from '@chakra-ui/core';
+import { GetStaticProps } from 'next';
+
+import Search from '../components/search';
+import { getMakes, Make } from '../lib/getMakes';
+
+type HomeProps = {
+  makes: Make[];
 };
 
-export default function Home({ faq }: FaqProps) {
+export default function Home({ makes }: HomeProps) {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1>Hello</h1>
-        {faq.map((item) => (
-          <div key={item.id}>
-            {' '}
-            {item.question} {item.answer}
-          </div>
-        ))}
-      </main>
-    </div>
+    <Flex justifyContent="center">
+      <Search makes={makes} />
+    </Flex>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const prisma = new PrismaClient();
-
-  const response = await prisma.faq.findMany();
-
-  const faq = response.map((item) => ({
-    ...item,
-    createdate: JSON.stringify(item.createdate),
-  }));
+  const makes = await getMakes();
 
   return {
-    props: {
-      faq,
-    },
+    props: { makes },
   };
 };
