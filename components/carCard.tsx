@@ -4,7 +4,7 @@ import { Text, Box, Heading, Link } from '@chakra-ui/core';
 import Image from 'next/image';
 import NextLink from 'next/link';
 
-import { Car } from '../../types/car';
+import { Car } from '../types/car';
 
 type CarCardProps = {
   data: Car;

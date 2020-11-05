@@ -19,9 +19,9 @@ import { Field, Form, Formik, useField, useFormikContext } from 'formik';
 import router, { useRouter } from 'next/router';
 import useSWR from 'swr';
 
-import { Make } from '../../lib/getMakes';
-import { Model } from '../../lib/getModels';
-import { getReqAsString } from '../../utils/getReqAsString';
+import { Make } from '../lib/getMakes';
+import { Model } from '../lib/getModels';
+import { getReqAsString } from '../utils/getReqAsString';
 
 export default function Search() {
   const { data: makes } = useSWR<Make[]>(`/api/makes`, {
