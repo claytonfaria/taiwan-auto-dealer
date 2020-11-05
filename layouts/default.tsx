@@ -4,8 +4,9 @@ import { Grid, GridItem } from '@chakra-ui/core';
 import Head from 'next/head';
 import { ReactNode } from 'react';
 
-import { Search, Footer } from '../components';
 import NavBar from '../components/Navbar';
+import Search from '../components/Search';
+import Footer from '../components/footer';
 
 type LayoutProps = {
   children: ReactNode;

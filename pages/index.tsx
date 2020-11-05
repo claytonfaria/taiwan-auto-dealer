@@ -8,7 +8,9 @@ import { stringify } from 'querystring';
 import { useState } from 'react';
 import useSWR from 'swr';
 
-import { CarCard, CarPagination, Search } from '../components';
+import CarCard from '../components/CarCard';
+import CarPagination from '../components/CarPagination';
+import Search from '../components/Search';
 import { getPaginatedCars } from '../lib/getPaginatedCars';
 import { Car } from '../types/car';
 
