@@ -36,8 +36,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = response.map((car) => ({
     params: {
       id: car.id.toString(),
-      make: car.make.replaceAll(' ', ''),
-      model: car.model.replaceAll(' ', ''),
+      make: car.make.replace(/\s/g, ''),
+      model: car.model.replace(/\s/g, ''),
     },
   }));
 
