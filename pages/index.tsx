@@ -8,8 +8,8 @@ import { stringify } from 'querystring';
 import { useState } from 'react';
 import useSWR from 'swr';
 
-import CarCard from '../components/CarCard';
-import CarPagination from '../components/CarPagination';
+import CarCard from '../components/carCard';
+import CarPagination from '../components/carPagination';
 import { getPaginatedCars } from '../lib/getPaginatedCars';
 import { Car } from '../types/car';
 
