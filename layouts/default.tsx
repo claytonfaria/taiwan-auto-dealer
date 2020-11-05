@@ -4,7 +4,7 @@ import { Grid, GridItem } from '@chakra-ui/core';
 import Head from 'next/head';
 import { ReactNode } from 'react';
 
-import NavBar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import Search from '../components/Search';
 import Footer from '../components/footer';
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable import/no-default-export */
-import { Flex, Text, Box, SimpleGrid, Heading, Spinner } from '@chakra-ui/core';
+import { SimpleGrid, Spinner } from '@chakra-ui/core';
 import deepEqual from 'fast-deep-equal';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
@@ -10,7 +10,6 @@ import useSWR from 'swr';
 
 import CarCard from '../components/CarCard';
 import CarPagination from '../components/CarPagination';
-import Search from '../components/Search';
 import { getPaginatedCars } from '../lib/getPaginatedCars';
 import { Car } from '../types/car';
 
