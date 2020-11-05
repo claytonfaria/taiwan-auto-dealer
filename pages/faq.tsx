@@ -1,6 +1,10 @@
+/* eslint-disable import/no-default-export */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable react/function-component-definition */
+import { Accordion } from '@chakra-ui/core';
 import { PrismaClient } from '@prisma/client';
 import { GetStaticProps } from 'next';
-import { Accordion } from '@chakra-ui/core';
+
 import FaqCard from '../components/faqCard';
 import { FaqModel } from '../types/faq';
 

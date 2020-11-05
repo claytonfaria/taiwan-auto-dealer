@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable import/no-default-export */
 import {
   AccordionItem,
   AccordionButton,
@@ -5,6 +7,7 @@ import {
   AccordionIcon,
   Box,
 } from '@chakra-ui/core';
+
 import { FaqModel } from '../types/faq';
 
 type FaqCardProps = {

@@ -16,6 +16,7 @@ export default function CarPagination({ totalPages }: { totalPages?: number }) {
 
   return (
     <Pagination
+      style={{ paddingTop: '1rem', paddingBottom: '1rem' }}
       color="primary"
       page={Number(query.page || '1')}
       count={totalPages || 1}
@@ -39,8 +40,9 @@ export type PaginationLinkProps = {
 const PaginationLink = forwardRef<HTMLAnchorElement, PaginationLinkProps>(
   ({ item, query, ...props }, ref) => (
     <NextLink
+      scroll={false}
       href={{
-        pathname: '/cars',
+        pathname: '/',
         query: { ...query, page: item.page },
       }}
       shallow

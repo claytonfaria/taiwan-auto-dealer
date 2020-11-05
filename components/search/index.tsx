@@ -23,12 +23,11 @@ import { Make } from '../../lib/getMakes';
 import { Model } from '../../lib/getModels';
 import { getReqAsString } from '../../utils/getReqAsString';
 
-type SearchProps = {
-  makes: Make[];
-  singleColumn?: boolean;
-};
+export default function Search() {
+  const { data: makes } = useSWR<Make[]>(`/api/makes`, {
+    dedupingInterval: 600_000,
+  });
 
-export default function Search({ makes, singleColumn }: SearchProps) {
   const { query } = useRouter();
 
   const prices = [500, 1000, 5000, 15_000, 25_000, 50_000, 250_000];
@@ -41,74 +40,72 @@ export default function Search({ makes, singleColumn }: SearchProps) {
   };
 
   const handleSubmit = (values: typeof initialValues) => {
-    router.push(
-      {
-        pathname: '/cars',
-        query: { ...values, page: 1 },
-      },
-      undefined,
-      { shallow: true }
-    );
+    router.push({
+      pathname: '/',
+      query: { ...values, page: 1 },
+    });
   };
 
   return (
-    <Formik
-      enableReinitialize
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-    >
-      {({ values }) => (
-        <Form>
-          <Box boxShadow="lg" padding="2rem">
-            <SimpleGrid columns={singleColumn ? 1 : 2} spacing={4}>
-              <FormControl id="make">
-                <FormLabel>Make</FormLabel>
-                <Field name="make" as={Select}>
-                  <option value="all">All Makes</option>
-                  {makes.map((make) => (
-                    <option
-                      key={make.make}
-                      value={make.make}
-                    >{`${make.make} (${make.count})`}</option>
-                  ))}
-                </Field>
-              </FormControl>
-              <ModelSelect name="model" make={getReqAsString(values.make)} />
-              <FormControl id="minPrice">
-                <FormLabel>Min Price</FormLabel>
-                <Field name="minPrice" as={Select}>
-                  <option value="all">No Min</option>
-                  {prices.map((price) => (
-                    <option key={price} value={price}>
-                      {price}
-                    </option>
-                  ))}
-                </Field>
-              </FormControl>
-              <FormControl id="maxPrice">
-                <FormLabel>Max Price</FormLabel>
-                <Field name="maxPrice" as={Select}>
-                  <option value="all">No Max</option>
-                  {prices.map((price, index) => (
-                    <option key={index} value={price}>
-                      {price}
-                    </option>
-                  ))}
-                </Field>
-              </FormControl>
-            </SimpleGrid>
-            <Button
-              width="100%"
-              marginTop="1rem"
-              colorScheme="teal"
-              type="submit"
-            >
-              Search
-            </Button>
-          </Box>
-        </Form>
-      )}
-    </Formik>
+    <Box width="100%">
+      <Formik
+        enableReinitialize
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+      >
+        {({ values }) => (
+          <Form>
+            <Box boxShadow="lg" padding="1rem" marginTop="1rem">
+              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                <FormControl>
+                  <FormLabel colorScheme="teal">Make</FormLabel>
+                  <Field name="make" as={Select}>
+                    <option value="all">All Makes</option>
+                    {makes?.map((make) => (
+                      <option
+                        key={make.make}
+                        value={make.make}
+                      >{`${make.make} (${make.count})`}</option>
+                    ))}
+                  </Field>
+                </FormControl>
+                <ModelSelect name="model" make={getReqAsString(values.make)} />
+                <FormControl id="minPrice">
+                  <FormLabel>Min Price</FormLabel>
+                  <Field name="minPrice" as={Select}>
+                    <option value="all">No Min</option>
+                    {prices.map((price) => (
+                      <option key={price} value={price}>
+                        {price}
+                      </option>
+                    ))}
+                  </Field>
+                </FormControl>
+                <FormControl id="maxPrice">
+                  <FormLabel>Max Price</FormLabel>
+                  <Field name="maxPrice" as={Select}>
+                    <option value="all">No Max</option>
+                    {prices.map((price, index) => (
+                      <option key={index} value={price}>
+                        {price}
+                      </option>
+                    ))}
+                  </Field>
+                </FormControl>
+              </SimpleGrid>
+              <Button
+                width="100%"
+                marginTop="1rem"
+                colorScheme="blue"
+                type="submit"
+              >
+                Search
+              </Button>
+            </Box>
+          </Form>
+        )}
+      </Formik>
+    </Box>
   );
 }
 

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable import/no-default-export */
 import { Text, Flex } from '@chakra-ui/core';
 
 export default function Footer() {
@@ -5,13 +7,11 @@ export default function Footer() {
     <Flex
       justifyContent="center"
       alignItems="center"
-      marginTop="1rem"
-      paddingTop="1rem"
-      // marginBottom={{ base: '3rem', lg: '1rem' }}
-      // paddingBottom={{ base: '6rem', lg: '1rem' }}
+      marginY="1rem"
+      paddingY="1rem"
     >
       <Text fontSize={{ base: 'xs', lg: 'sm' }}>
-        Copyright &copy; {new Date().getFullYear()} Clayton Faria. All Rights
+        Copyright &copy; {new Date().getFullYear()} Taiwan Auto. All Rights
         Reserved.
       </Text>
     </Flex>

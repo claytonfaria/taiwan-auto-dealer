@@ -1,33 +1,63 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable unicorn/consistent-function-scoping */
-/* eslint-disable promise/prefer-await-to-then */
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable import/no-default-export */
-
-import { Flex } from '@chakra-ui/core';
+import { Flex, Text, Box, SimpleGrid, Heading, Spinner } from '@chakra-ui/core';
+import deepEqual from 'fast-deep-equal';
 import { GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+import { stringify } from 'querystring';
+import { useState } from 'react';
+import useSWR from 'swr';
 
-import Search from '../components/Search';
-import { getMakes, Make } from '../lib/getMakes';
+import { CarCard, CarPagination, Search } from '../components';
+import { getPaginatedCars } from '../lib/getPaginatedCars';
+import { Car } from '../types/car';
 
 type HomeProps = {
-  makes: Make[];
+  cars: Car[];
+  totalPages: number;
 };
 
-export default function Home({ makes }: HomeProps) {
+type NewCars = {
+  data?: {
+    cars: Car[];
+    totalPages: number;
+  };
+};
+
+export default function Home({ cars, totalPages }: HomeProps) {
+  const { query } = useRouter();
+  const [serverQuery] = useState(query);
+
+  const { data: newCars }: NewCars = useSWR(`/api/cars?${stringify(query)}`, {
+    dedupingInterval: 600_000,
+    initialData: deepEqual(query, serverQuery)
+      ? { cars, totalPages }
+      : undefined,
+  });
+
+  if (!newCars) {
+    return <Spinner />;
+  }
+
   return (
-    <Flex justifyContent="center">
-      <Search makes={makes} />
-    </Flex>
+    <>
+      <CarPagination totalPages={newCars?.totalPages} />
+      <SimpleGrid columns={{ base: 1, md: 2 }}>
+        {newCars?.cars.map((car) => (
+          <CarCard data={car} key={car.id} />
+        ))}
+      </SimpleGrid>
+    </>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const makes = await getMakes();
+  const paginatedCars = await getPaginatedCars();
 
   return {
-    props: { makes },
+    props: {
+      cars: paginatedCars.cars,
+      totalPages: paginatedCars.totalPages,
+    },
   };
 };

@@ -3,7 +3,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { getPaginatedCars } from '../../lib/getPaginatedCars';
-import { getReqAsString } from '../../utils/getReqAsString';
 
 export default async function Cars(req: NextApiRequest, res: NextApiResponse) {
   const searchResults = await getPaginatedCars(req.query);
