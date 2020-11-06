@@ -42,7 +42,10 @@ export default function Search() {
   const handleSubmit = (values: typeof initialValues) => {
     router.push({
       pathname: '/',
-      query: { ...values, page: 1 },
+      query: {
+        ...values,
+        page: 1,
+      },
     });
   };
 
@@ -121,7 +124,7 @@ export function ModelSelect({ make, ...props }: ModelSelectProps) {
   });
 
   const { data: models } = useSWR<Model[]>(`/api/models?make=${make}`, {
-    dedupingInterval: 600_000,
+    // dedupingInterval: 600_000, if keep the deduping on, field will not be set to all when make change
     onSuccess: (newValues) => {
       if (!newValues.map((a) => a.model).includes(field.value)) {
         // we want to make this field.value = 'all'
