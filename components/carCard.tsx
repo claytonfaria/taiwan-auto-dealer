@@ -14,7 +14,7 @@ export default function CarCard({ data }: CarCardProps) {
   const { make, model, photourl, price, details, id } = data;
 
   return (
-    <NextLink href={`/car/${make}/${model.replaceAll(' ', '')}/${id}`}>
+    <NextLink href={`/car/${make}/${model.replace(/\s/g, '')}/${id}`}>
       <Link _hover={{ textDecoration: 'none' }}>
         <Box margin="0.5rem" boxShadow="dark-lg" borderRadius="5px">
           <Heading size="sm" paddingTop="10px" paddingX="10px">
